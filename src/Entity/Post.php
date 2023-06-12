@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
+use App\Controller\PostCountController;
+use App\Controller\PostPublishController;
+use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
-use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
@@ -19,7 +21,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write:Post']],
     collectionOperations: [
         'get',
-        'post' => ['validation_groups' => ['create:Post']]
+        'post' => ['validation_groups' => ['create:Post']],
+        'count' => [
+            'method' => 'GET',
+            'path' => '/posts/all/count',
+            'controller' => PostCountController::class,
+            'read' => false,
+            'filters' => [],
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Affiche le nombre des articles'
+            ]
+        ]
 
     ],
     itemOperations: [
@@ -29,7 +42,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'publish' => [
             'method' => 'POST',
             'path' => 'posts/{id}/publish',
-            'controller' => 'App\Controller\PostPublishController'
+            'controller' => PostPublishController::class,
+            'openapi_context' => [
+                'summary' => 'Permet l\'activation d\'un article',
+                'requestBody' => [
+                    'content' => [
+                        'application/ld+json' => [
+                            // 'schema' => []
+                        ]
+                    ]
+                ]
+                
+            ]
         ]
 
     ]
@@ -86,6 +110,7 @@ class Post
     /**
      * @ORM\Column(type="boolean")
      */
+    #[Groups(['read:collection'])]
     private $online;
 
     public function __construct()

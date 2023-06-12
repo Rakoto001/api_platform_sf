@@ -13,7 +13,7 @@ class DependencyRepository
         $this->projectDir = $projectDir;
     }
 
-    public function save($data)
+    public function save(Dependency $data)
     {
        $composerDir = $this->projectDir.'/composer_test.json';
        $jsonData = json_decode(file_get_contents($composerDir), true); // true car on a besoin d'un tab associatif
