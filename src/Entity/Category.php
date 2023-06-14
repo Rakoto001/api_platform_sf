@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Action\NotFoundAction;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +13,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: ['get', 'post'],
+    itemOperations: [
+        'put', 
+        'delete',
+        'get' => [
+            'controller' => NotFoundAction::class, 
+            'openapi_context' => [
+                'summary' => 'hidden',
+            ],
+            'read' => false, //pour ne pas embêter l @ ORM ,
+            'output' => false // pour ne pas afficher le resultat
+
+        ]
+    ],
+)]
 class Category
 {
     /**
