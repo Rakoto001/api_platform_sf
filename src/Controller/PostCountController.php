@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class PostCountController
 {
@@ -11,11 +12,10 @@ class PostCountController
     public function __construct(PostRepository $posrRepos) {
         $this->posrRepos = $posrRepos;
     }
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        // dd('dans COUNT CONTROLLER');
 
-        return $this->posrRepos->count([]);
+        return $this->posrRepos->count(['online' => $request->get('online')]);
         
     }
 

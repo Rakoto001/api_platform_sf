@@ -30,7 +30,20 @@ use Symfony\Component\Validator\Constraints as Assert;
             'filters' => [],
             'pagination_enabled' => false,
             'openapi_context' => [
-                'summary' => 'Affiche le nombre des articles'
+                'summary' => 'Affiche le nombre des articles',
+                'parametters' => [
+                    [
+                        'in' => 'query',
+                        'name' => 'online',
+                        'schema' => [
+                            'types' => 'integer',
+                            'maximum' => 1,
+                            'minimum' => 0, 
+                        ],
+                        'description' => 'filtre les articles en ligne'
+
+                    ]
+                ]
             ]
         ]
 
