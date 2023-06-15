@@ -27,9 +27,8 @@ class OpenApiFactory implements OpenApiFactoryInterface
         // dd($path->getGet()->getSummary());
            # code...
        }
-    dd($openApi);
         
-        return $this->decorator->__invoke($context);
+        return $openApi;
     }
 
 }
