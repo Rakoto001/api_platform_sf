@@ -19,5 +19,12 @@ class SecurityController extends AbstractController
             'roles' => $oUser->getRoles()
             ]);
     }
+
+
+     #[Route(path:'/api/logout', name:'api_logout', methods:['POST'])]
+     public function logout() :Response
+     {
+        
+     }
     
 }

@@ -62,7 +62,8 @@ class OpenApiFactory implements OpenApiFactoryInterface
 
         $pathItem = new PathItem(
             post: new Operation(
-                operationId: 'postLogin',
+                operationId: 'postLogin', // doit êtr unique
+                tags: ['User'], // afin de l'introduire dans les swagger de user
                 requestBody : new RequestBody(
                     content: new ArrayObject([
                         'application/json' => [

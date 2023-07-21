@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 #[ApiResource(
 
-    security : 'is_granted("ROLE_USER")',
+    security : "is_granted('ROLE_USER')",
     collectionOperations: [
         "me" => [
             'pagination_enabled' => false,
